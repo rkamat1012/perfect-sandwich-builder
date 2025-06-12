@@ -23,7 +23,7 @@ function App() {
   };
 
   const handleSubmit = async () => {
-    const apiUrl = "https://your-api-id.execute-api.region.amazonaws.com/prod/sandwich"; // REPLACE with your real API URL
+    const apiUrl = "https://zk1eddn3ee.execute-api.us-east-1.amazonaws.com/prod/sandwich"; // REPLACE with your real API URL
 
     try {
       const res = await fetch(apiUrl, {
