@@ -13,14 +13,17 @@ function App() {
   const [response, setResponse] = useState('');
 
   const toggleIngredient = (category, item) => {
-    setIngredients(prev => ({
-      ...prev,
-      [category]: prev[category] === item ? null : item
-    }));
+    setIngredients(prev => {
+      const prevItems = prev[category] || [];
+      const newItems = prevItems.includes(item)
+        ? prevItems.filter(i => i !== item)
+        : [...prevItems, item];
+      return { ...prev, [category]: newItems };
+    });
   };
 
   const handleSubmit = async () => {
-    const apiUrl = "https://zk1eddn3ee.execute-api.us-east-1.amazonaws.com/prod/sandwich"; // Replace with real URL
+    const apiUrl = "https://your-api-id.execute-api.region.amazonaws.com/prod/sandwich"; // REPLACE with your real API URL
 
     try {
       const res = await fetch(apiUrl, {
@@ -51,7 +54,8 @@ function App() {
               onClick={() => toggleIngredient(category, item)}
               style={{
                 margin: '5px',
-                backgroundColor: ingredients[category] === item ? 'lightgreen' : ''
+                backgroundColor:
+                  ingredients[category]?.includes(item) ? 'lightgreen' : ''
               }}
             >
               {item}
@@ -67,3 +71,4 @@ function App() {
 }
 
 export default App;
+
