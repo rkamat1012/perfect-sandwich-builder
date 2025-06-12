@@ -18,7 +18,7 @@ function App() {
   };
 
   const handleSubmit = async () => {
-    const apiUrl = "https://<API_GATEWAY_URL>/sandwich"; // Replace with your actual API Gateway URL
+    const apiUrl = "https://zk1eddn3ee.execute-api.us-east-1.amazonaws.com/prod/sandwich"; // Replace with your actual API Gateway URL
     try {
       const res = await fetch(apiUrl, {
         method: 'POST',
