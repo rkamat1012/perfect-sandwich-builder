@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 
 const ingredientsList = {
-  bread: ['White', 'Wheat', 'Multigrain'],
-  meat: ['Turkey', 'Ham', 'Chicken'],
-  cheese: ['Cheddar', 'Swiss', 'American'],
+  bread: ['White', 'Wheat', 'Multigrain', 'Rye'],
+  meat: ['Turkey', 'Ham', 'Chicken', 'Roast Beef'],
+  cheese: ['Cheddar', 'Swiss', 'American', 'PepperJack'],
   veggies: ['Lettuce', 'Tomato', 'Onions', 'Pickles'],
   sauces: ['Mayo', 'Mustard', 'Chipotle']
 };
