@@ -1,45 +1,60 @@
 import React, { useState } from 'react';
 
 const ingredientsList = {
-  bread: ['White', 'Wheat', 'Multigrain', 'Rye'],
-  meat: ['Turkey', 'Ham', 'Chicken', 'Roast Beef'],
-  cheese: ['Cheddar', 'Swiss', 'American', 'PepperJack'],
-  veggies: ['Lettuce', 'Tomato', 'Onions', 'Pickles'],
-  sauces: ['Mayo', 'Mustard', 'Chipotle']
+  bread: ['White', 'Wheat', 'Multigrain', 'Rye', 'Sour dough'],
+  meat: ['Turkey', 'Ham', 'Chicken', 'Roast Beef', 'Egg'],
+  cheese: ['Cheddar', 'Swiss', 'American', 'Pepper Jack'],
+  veggies: ['Lettuce', 'Tomato', 'Onions', 'Pickles', 'Spinach', 'Jalepaneos', 'Olives', 'Banana Peppers', 'Avacado'],
+  sauces: ['Mayo', 'Mustard', 'Chipotle', 'Honey Mustard', 'Spicy Siracha']
 };
 
 function App() {
   const [ingredients, setIngredients] = useState({});
   const [response, setResponse] = useState('');
 
-  const handleSelect = (category, item) => {
-    setIngredients((prev) => ({ ...prev, [category]: item }));
+  const toggleIngredient = (category, item) => {
+    setIngredients(prev => ({
+      ...prev,
+      [category]: prev[category] === item ? null : item
+    }));
   };
 
   const handleSubmit = async () => {
-    const apiUrl = "https://zk1eddn3ee.execute-api.us-east-1.amazonaws.com/prod/sandwich"; // Replace with your actual API Gateway URL
+    const apiUrl = "https://zk1eddn3ee.execute-api.us-east-1.amazonaws.com/prod/sandwich"; // Replace with real URL
+
     try {
       const res = await fetch(apiUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ingredients })
       });
+
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
       const data = await res.json();
-      setResponse(data.message + ' ID: ' + data.sandwichId);
+      setResponse(`✅ Sandwich saved! ID: ${data.sandwichId}`);
     } catch (error) {
-      setResponse('Error saving sandwich.');
+      console.error(error);
+      setResponse(`❌ Error saving sandwich: ${error.message}`);
     }
   };
 
   return (
     <div style={{ padding: 20 }}>
       <h1>Perfect Sandwich Builder</h1>
-      {Object.entries(ingredientsList).map(([category, options]) => (
+      {Object.entries(ingredientsList).map(([category, items]) => (
         <div key={category}>
           <h3>{category.toUpperCase()}</h3>
-          {options.map(opt => (
-            <button key={opt} onClick={() => handleSelect(category, opt)}>
-              {opt}
+          {items.map(item => (
+            <button
+              key={item}
+              onClick={() => toggleIngredient(category, item)}
+              style={{
+                margin: '5px',
+                backgroundColor: ingredients[category] === item ? 'lightgreen' : ''
+              }}
+            >
+              {item}
             </button>
           ))}
         </div>
